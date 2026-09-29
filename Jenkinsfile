@@ -4,12 +4,14 @@ pipeline {
   options {
     timestamps()
   }
+  
   stages {
     stage('Checkout') {
       steps {
         checkout scm
       }
     }
+    
     stage('Setup') {
       steps {
         sh 'python3 -m venv venv'
@@ -17,17 +19,20 @@ pipeline {
         sh './venv/bin/pip install -r requirements.txt'
       }
     }
+    
     stage('Build') {
       steps {
         sh './venv/bin/python -m py_compile app.py'
       }
     }
+    
     stage('Test') {
       steps {
         sh './venv/bin/pytest --junitxml=result.xml'
       }
     }
   }
+  
   post {
     always {
       junit 'result.xml'
