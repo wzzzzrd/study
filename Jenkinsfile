@@ -34,18 +34,12 @@ pipeline {
       steps {
         sh './venv/bin/pytest --junitxml=result.xml --cov=app --cov-report=xml:coverage.xml'
       }
-      // Переносим сбор тестов сюда. Внутри stage контекст ноды потеряться физически не может
-      post {
-        always {
-          junit 'result.xml'
-        }
-      }
     }
     
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('sonarqube') {
-          sh "${SCANNER_HOME}/bin/sonar-scanner"
+        sh "${SCANNER_HOME}/bin/sonar-scanner"
         }
       }
     }
@@ -53,20 +47,22 @@ pipeline {
     stage('Quality Gate') {
       steps {
         timeout(time: 5, unit: 'MINUTES') {
-          waitForQualityGate abortPipeline: true
+        waitForQualityGate abortPipeline: true
         }
       }
     }
   }
   
-  // Из глобального post убираем junit, оставляем только логирование в консоль
   post {
+    always {
+      junit 'result.xml'
+    }
     success {
       echo 'Сборка прошла успешно, Quality Gate пройден'
     }
+
     failure {
       echo 'Сборка завершилась с ошибкой'
     }
   }
 }
-
