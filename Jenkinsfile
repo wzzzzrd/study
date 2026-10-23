@@ -55,13 +55,19 @@ pipeline {
   
   post {
     always {
-      node {
-        junit 'result.xml'
+      script {
+        node {
+          junit 'result.xml'
+        }
       }
     }
     success {
       echo 'Сборка прошла успешно, Quality Gate пройден'
     }
+    failure {
+      echo 'Сборка завершилась с ошибкой'
+    }
+  }
 
     failure {
       echo 'Сборка завершилась с ошибкой'
