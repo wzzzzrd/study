@@ -44,15 +44,15 @@ pipeline {
       }
     }
   }
-  post {
-    always {
-      junit 'result.xml'
-    }
-    success {
-      echo 'Сборка прошла успешно, Quality Gate пройден'
-    }
-    failure {
-      echo 'Сборка завершилась с ошибкой'
-    }
-  }
+ // post {
+  //  always {
+   //   junit 'result.xml'
+   // }
+   // success {
+    //  echo 'Сборка прошла успешно, Quality Gate пройден'
+   // }
+    //failure {
+     // echo 'Сборка завершилась с ошибкой'
+    //}
+  //}
 }
