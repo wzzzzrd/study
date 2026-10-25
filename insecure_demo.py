@@ -6,8 +6,7 @@ import subprocess
 import requests
 import yaml
 import json
-DB_PASSWORD = "SuperSecret123!"          
-# пароль в коде
+DB_PASSWORD = os.environ["DB_PASSWORD"] # секрет берётся из окружения 
 
 def get_user(username):
   conn = sqlite3.connect("app.db")
