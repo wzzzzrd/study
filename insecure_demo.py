@@ -15,8 +15,10 @@ def get_user(username):
   # параметризованный запрос
 
 def ping(host):
-  return subprocess.run(["ping", "-c", "1", host], check=False)   
-# без shell, аргументы списком
+    # валидация входных данных по белому списку символов
+    if not host.replace(".", "").replace("-", "").isalnum():
+        raise ValueError("Invalid host")
+    return subprocess.run(["ping", "-c", "1", host], check=False)  # без shell
 
 def hash_password(password, salt=None):
   salt = salt or os.urandom(16)
